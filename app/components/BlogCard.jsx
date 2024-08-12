@@ -9,7 +9,7 @@ import { cn } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-export default function BlogCard({ blog, className = "" }) {
+export default function BlogCard({ blog, backendUrl, className = "" }) {
   return (
     <Card
       className={cn(
@@ -27,7 +27,7 @@ export default function BlogCard({ blog, className = "" }) {
           alt="Card background"
           className="w-[300px] h-[220px] object-cover rounded-small"
           src={
-            "http://localhost:1337" +
+            backendUrl +
             blog.attributes.cover.data.attributes.formats.small.url
           }
           width={blog.attributes.cover.data.attributes.formats.small.width}
@@ -42,7 +42,7 @@ export default function BlogCard({ blog, className = "" }) {
   );
 }
 
-export function DisplayBlogs({ blogs, className = "" }) {
+export function DisplayBlogs({ blogs, backendUrl, className = "" }) {
   const [blogsToShow, setBlogsToShow] = useState(3);
   const [currIndex, setCurrIndex] = useState(0);
 
@@ -89,7 +89,7 @@ export function DisplayBlogs({ blogs, className = "" }) {
       <Button
         onClick={handlePrev}
         isDisabled={currIndex == 0}
-        className="bg-pink-950"
+        className={blogs.length <= blogsToShow ? "hidden" : "bg-pink-950"}
         isIconOnly
         radius="full"
       >
@@ -97,12 +97,12 @@ export function DisplayBlogs({ blogs, className = "" }) {
       </Button>
       <div className="flex gap-4">
         {blogs.slice(currIndex, currIndex + blogsToShow).map((blog) => (
-          <BlogCard blog={blog} key={blog.attributes.slug} />
+          <BlogCard blog={blog} key={blog.attributes.slug} backendUrl={backendUrl} />
         ))}
       </div>
       <Button
         onClick={handleNext}
-        className="bg-pink-950"
+        className={blogs.length <= blogsToShow ? "hidden" : "bg-pink-950"}
         isIconOnly
         radius="full"
         isDisabled={currIndex + blogsToShow >= blogs.length}
