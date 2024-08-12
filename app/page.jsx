@@ -58,12 +58,19 @@ export default async function Home() {
         </div>
       </section>
       <section className="flex flex-col gap-4 items-center py-7 after:content-[''] after:bg-pink-200   after:absolute relative after:inset-0 after:skew-y-3 after:-z-10 ">
-        <TypographyH2 content={"Explore some Latest Blog Posts"} />
+        <TypographyH2 content={first_six && first_six.length > 0
+              ? "Explore some Latest Blog Posts"
+              : "No Blogs Published Yet"} />
         <div
           id="blogs"
           className="grid place-content-center grid-cols-3 gap-4  w-fit"
         ></div>
-        <DisplayBlogs blogs={first_six} />
+        {first_six && first_six.length > 0 && (
+          <DisplayBlogs
+            blogs={first_six}
+            backendUrl={process.env.BACKEND_URL}
+          />
+        )}
       </section>
     </main>
   );
